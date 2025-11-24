@@ -35,8 +35,8 @@ app.use(cors({
   origin: function (origin, callback) {
     if (!origin) return callback(null, true);
     const allowedOrigins = [
-      'http://samhost.wcore.com.br',
-      'https://samhost.wcore.com.br',
+      'http://admin.samcast.com.br',
+      'https://admin.samcast.com.br',
       'http://localhost:5173',
       'http://localhost:3000'
     ];
@@ -111,8 +111,8 @@ const PORT = settings.PORT;
 
 app.listen(PORT, () => {
   console.log(`Servidor rodando na porta ${PORT}`);
-  console.log(`Admin Panel: http://samhost.wcore.com.br/Admin`);
-  console.log(`API Health: http://samhost.wcore.com.br/Admin/api/health`);
+  console.log(`Admin Panel: http://admin.samcast.com.br/Admin`);
+  console.log(`API Health: http://admin.samcast.com.br/Admin/api/health`);
 });
 
 export default app;

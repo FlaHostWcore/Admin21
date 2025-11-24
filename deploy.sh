@@ -37,8 +37,8 @@ echo "🚀 Iniciando servidor..."
 npm run server &
 
 echo "✅ Deploy concluído!"
-echo "🌐 Painel administrativo disponível em: http://samhost.wcore.com.br/Admin"
-echo "🔧 API disponível em: http://samhost.wcore.com.br/Admin/api"
+echo "🌐 Painel administrativo disponível em: http://admin.samcast.com.br/Admin"
+echo "🔧 API disponível em: http://admin.samcast.com.br/Admin/api"
 
 # Verificar se o servidor está rodando
 sleep 3

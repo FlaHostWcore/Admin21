@@ -4,7 +4,7 @@ Painel administrativo para gerenciamento do sistema SamCast.
 
 ## 🚀 Deploy em Produção
 
-O painel está configurado para rodar em `http://samhost.wcore.com.br/Admin/`
+O painel está configurado para rodar em `http://admin.samcast.com.br/Admin/`
 
 ### Configuração do Servidor
 
@@ -27,9 +27,9 @@ chmod +x deploy.sh
 
 ### Estrutura de URLs
 
-- **Painel Admin:** `http://samhost.wcore.com.br/Admin/`
-- **API Admin:** `http://samhost.wcore.com.br/Admin/api/`
-- **Health Check:** `http://samhost.wcore.com.br/Admin/api/health`
+- **Painel Admin:** `http://admin.samcast.com.br/Admin/`
+- **API Admin:** `http://admin.samcast.com.br/Admin/api/`
+- **Health Check:** `http://admin.samcast.com.br/Admin/api/health`
 - **Servidor Local:** `http://localhost:3002/Admin/api/`
 
 ### Configuração do Nginx

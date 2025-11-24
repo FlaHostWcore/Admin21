@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "build:prod": "VITE_API_URL=http://samhost.wcore.com.br/Admin/api vite build",
+    "build:prod": "VITE_API_URL=http://admin.samcast.com.br/Admin/api vite build",
     "lint": "eslint .",
     "preview": "vite preview",
     "server": "NODE_ENV=production node server/app.js",

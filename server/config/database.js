@@ -21,8 +21,8 @@ const settings = {
   CORS_ORIGIN: process.env.CORS_ORIGIN 
     ? process.env.CORS_ORIGIN.split(',').map(origin => origin.trim())
     : [
-        'http://samhost.wcore.com.br', 
-        'https://samhost.wcore.com.br',
+        'http://admin.samcast.com.br', 
+        'https://admin.samcast.com.br',
         'http://localhost:5173', 
         'http://localhost:3000', 
         'http://127.0.0.1:5173', 

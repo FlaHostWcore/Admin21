@@ -95,7 +95,7 @@ INSERT INTO `admin_logs` (`id`, `admin_id`, `acao`, `tabela_afetada`, `registro_
 	(21, 4, 'login', 'administradores', 4, NULL, NULL, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36', '2025-07-21 08:37:50'),
 	(22, 4, 'login', 'administradores', 4, NULL, NULL, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36', '2025-07-21 08:38:30'),
 	(23, 3, 'login', 'administradores', 3, NULL, NULL, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36', '2025-07-21 08:38:51'),
-	(24, 3, 'update', 'configuracoes', 1, '{"codigo":1,"dominio_padrao":"https://painel.exemplo.com","codigo_wowza_servidor_atual":1,"manutencao":"nao"}', '{"dominio_padrao":"http://samhost.wcore.com.br/","codigo_wowza_servidor_atual":1,"manutencao":"nao"}', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36', '2025-07-21 08:39:19');
+	(24, 3, 'update', 'configuracoes', 1, '{"codigo":1,"dominio_padrao":"https://painel.exemplo.com","codigo_wowza_servidor_atual":1,"manutencao":"nao"}', '{"dominio_padrao":"http://admin.samcast.com.br/","codigo_wowza_servidor_atual":1,"manutencao":"nao"}', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36', '2025-07-21 08:39:19');
 
 -- Copiando estrutura para tabela db_SamCast.admin_sessions
 CREATE TABLE IF NOT EXISTS `admin_sessions` (
@@ -419,7 +419,7 @@ CREATE TABLE IF NOT EXISTS `configuracoes` (
 -- Copiando dados para a tabela db_SamCast.configuracoes: 1 rows
 /*!40000 ALTER TABLE `configuracoes` DISABLE KEYS */;
 INSERT INTO `configuracoes` (`codigo`, `dominio_padrao`, `codigo_wowza_servidor_atual`, `manutencao`) VALUES
-	(1, 'http://samhost.wcore.com.br/', 1, 'nao');
+	(1, 'http://admin.samcast.com.br/', 1, 'nao');
 /*!40000 ALTER TABLE `configuracoes` ENABLE KEYS */;
 
 -- Copiando estrutura para tabela db_SamCast.dicas_rapidas
