@@ -188,6 +188,59 @@ router.post('/', authenticateToken, requireLevel(['super_admin', 'admin']), asyn
     // Log da ação
     await logAdminAction(req.admin.codigo, 'create', 'revendas', result.insertId, null, req.body, req);
 
+    // Criar usuário de streaming automaticamente com os mesmos dados da revenda
+    try {
+      const senhaHashStreaming = await bcrypt.hash(senha, 10);
+      const senhaTransmissaoHashStreaming = await bcrypt.hash(senha, 10);
+      const ftpDirStreaming = `/home/streaming/${usuario}`;
+
+      const [streamingResult] = await pool.execute(
+        `INSERT INTO streamings (
+          codigo_cliente, plano_id, codigo_servidor, usuario, senha, senha_transmissao,
+          identificacao, email, espectadores, bitrate, espaco, espaco_usado,
+          ftp_dir, aplicacao, idioma_painel, descricao, data_cadastro,
+          player_titulo, player_descricao, app_nome, app_email
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW(), ?, ?, ?, ?)`,
+        [
+          result.insertId, plano_id || null, servidorSelecionado, usuario, senhaHashStreaming, senhaTransmissaoHashStreaming,
+          nome, email, espectadores, bitrate, espaco, 0,
+          ftpDirStreaming, 'live', idioma_painel || 'pt-br', '',
+          nome, '', nome, email
+        ]
+      );
+
+      // Criar configuração Wowza para o streaming
+      if (serverData[0]) {
+        try {
+          const wowzaStreamingResult = await wowzaConfigService.createWowzaConfig({
+            nome: usuario,
+            serverIp: serverData[0].ip,
+            bitrate: bitrate,
+            espectadores: espectadores,
+            senha: senha
+          });
+
+          console.log(`✅ Configuração Wowza criada para streaming ${usuario} (revenda ${usuario})`);
+        } catch (wowzaStreamingError) {
+          console.error('Erro ao criar configuração Wowza para streaming:', wowzaStreamingError);
+          await logAdminAction(req.admin.codigo, 'wowza_config_error', 'streamings', streamingResult.insertId, null, { error: wowzaStreamingError.message }, req);
+        }
+      }
+
+      await logAdminAction(req.admin.codigo, 'create', 'streamings', streamingResult.insertId, null, {
+        codigo_cliente: result.insertId,
+        usuario,
+        email,
+        identificacao: nome
+      }, req);
+
+      console.log(`✅ Streaming ${usuario} criada automaticamente para revenda ${usuario}`);
+    } catch (streamingError) {
+      console.error('Erro ao criar streaming automaticamente:', streamingError);
+      // Log do erro mas não falha a criação da revenda
+      await logAdminAction(req.admin.codigo, 'streaming_auto_create_error', 'revendas', result.insertId, null, { error: streamingError.message }, req);
+    }
+
     res.status(201).json({ message: 'Revenda criada com sucesso', codigo: result.insertId });
 
   } catch (error) {
