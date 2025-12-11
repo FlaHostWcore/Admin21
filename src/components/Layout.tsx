@@ -58,8 +58,7 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
 
   const menuItems = [
     { path: '/dashboard', icon: LayoutDashboard, label: 'Dashboard' },
-    { path: '/revendas', icon: Users, label: 'Revendas' },
-    { path: '/streamings', icon: Play, label: 'Streamings' },
+    { path: '/revendas', icon: Play, label: 'Streamings' },
     { path: '/servidores', icon: Server, label: 'Servidores' },
     { path: '/planos-streaming', icon: CreditCard, label: 'Planos Streaming' },
     { path: '/planos-revenda', icon: CreditCard, label: 'Planos Revenda' },

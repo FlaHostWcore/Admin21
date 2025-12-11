@@ -59,7 +59,7 @@ export const Revendas: React.FC = () => {
       addNotification({
         type: 'error',
         title: 'Erro',
-        message: 'Não foi possível carregar as revendas.'
+        message: 'Não foi possível carregar os streamings.'
       });
     } finally {
       setLoading(false);
@@ -74,7 +74,7 @@ export const Revendas: React.FC = () => {
       addNotification({
         type: 'success',
         title: 'Sucesso',
-        message: 'Revenda excluída com sucesso.'
+        message: 'Streaming excluído com sucesso.'
       });
       setShowDeleteModal(false);
       setSelectedRevenda(null);
@@ -83,7 +83,7 @@ export const Revendas: React.FC = () => {
       addNotification({
         type: 'error',
         title: 'Erro',
-        message: error.message || 'Não foi possível excluir a revenda.'
+        message: error.message || 'Não foi possível excluir o streaming.'
       });
     }
   };
@@ -94,14 +94,14 @@ export const Revendas: React.FC = () => {
       addNotification({
         type: 'success',
         title: 'Sucesso',
-        message: 'Revenda suspensa com sucesso.'
+        message: 'Streaming suspenso com sucesso.'
       });
       loadRevendas();
     } catch (error: any) {
       addNotification({
         type: 'error',
         title: 'Erro',
-        message: error.message || 'Não foi possível suspender a revenda.'
+        message: error.message || 'Não foi possível suspender o streaming.'
       });
     }
   };
@@ -112,14 +112,14 @@ export const Revendas: React.FC = () => {
       addNotification({
         type: 'success',
         title: 'Sucesso',
-        message: 'Revenda ativada com sucesso.'
+        message: 'Streaming ativado com sucesso.'
       });
       loadRevendas();
     } catch (error: any) {
       addNotification({
         type: 'error',
         title: 'Erro',
-        message: error.message || 'Não foi possível ativar a revenda.'
+        message: error.message || 'Não foi possível ativar o streaming.'
       });
     }
   };
@@ -180,12 +180,12 @@ export const Revendas: React.FC = () => {
     <PermissionGuard module="revendas" action="visualizar">
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h1 className="text-3xl font-bold text-gray-900">Revendas</h1>
+        <h1 className="text-3xl font-bold text-gray-900">Streamings</h1>
         {hasPermission('revendas', 'criar') && (
           <Link to="/revendas/nova">
             <Button>
               <Plus size={16} className="mr-2" />
-              Nova Revenda
+              Novo Streaming
             </Button>
           </Link>
         )}
@@ -229,12 +229,12 @@ export const Revendas: React.FC = () => {
         {loading ? (
           <div className="text-center py-8">
             <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto"></div>
-            <p className="mt-2 text-gray-600">Carregando revendas...</p>
+            <p className="mt-2 text-gray-600">Carregando streamings...</p>
           </div>
         ) : (
           <Table>
             <TableHeader>
-              <TableHeaderCell>Revenda</TableHeaderCell>
+              <TableHeaderCell>Streaming</TableHeaderCell>
               <TableHeaderCell>Servidor</TableHeaderCell>
               <TableHeaderCell>Status</TableHeaderCell>
               <TableHeaderCell>Recursos</TableHeaderCell>
@@ -381,7 +381,7 @@ export const Revendas: React.FC = () => {
       >
         <div className="space-y-4">
           <p className="text-gray-600">
-            Tem certeza que deseja excluir a revenda <strong>{selectedRevenda?.nome}</strong>?
+            Tem certeza que deseja excluir o streaming <strong>{selectedRevenda?.nome}</strong>?
           </p>
           <p className="text-sm text-red-600">
             Esta ação não pode ser desfeita e todos os dados relacionados serão perdidos.
@@ -401,7 +401,7 @@ export const Revendas: React.FC = () => {
       <Modal
         isOpen={showDetailsModal}
         onClose={() => setShowDetailsModal(false)}
-        title="Detalhes da Revenda"
+        title="Detalhes do Streaming"
         size="lg"
       >
         {selectedRevenda && (

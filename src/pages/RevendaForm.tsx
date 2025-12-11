@@ -94,7 +94,7 @@ export const RevendaForm: React.FC = () => {
       addNotification({
         type: 'error',
         title: 'Erro',
-        message: 'Não foi possível carregar a revenda.'
+        message: 'Não foi possível carregar o streaming.'
       });
       navigate('/revendas');
     } finally {
@@ -142,14 +142,14 @@ export const RevendaForm: React.FC = () => {
         addNotification({
           type: 'success',
           title: 'Sucesso',
-          message: 'Revenda atualizada com sucesso.'
+          message: 'Streaming atualizado com sucesso.'
         });
       } else {
         await revendaService.createRevenda(formData);
         addNotification({
           type: 'success',
           title: 'Sucesso',
-          message: 'Revenda criada com sucesso.'
+          message: 'Streaming criado com sucesso.'
         });
       }
       navigate('/revendas');
@@ -157,7 +157,7 @@ export const RevendaForm: React.FC = () => {
       addNotification({
         type: 'error',
         title: 'Erro',
-        message: error.message || 'Não foi possível salvar a revenda.'
+        message: error.message || 'Não foi possível salvar o streaming.'
       });
     } finally {
       setLoading(false);
@@ -235,7 +235,7 @@ export const RevendaForm: React.FC = () => {
           Voltar
         </Button>
         <h1 className="text-3xl font-bold text-gray-900">
-          {id ? 'Editar Revenda' : 'Nova Revenda'}
+          {id ? 'Editar Streaming' : 'Novo Streaming'}
         </h1>
       </div>
 
@@ -317,7 +317,7 @@ export const RevendaForm: React.FC = () => {
               ))}
             </select>
             <p className="text-sm text-gray-500 mt-1">
-              Servidor onde a revenda será configurada
+              Servidor onde o streaming será configurado
             </p>
           </div>
         </Card>
