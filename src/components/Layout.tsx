@@ -92,26 +92,20 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
 
       {/* Sidebar */}
       <div className={`w-64 bg-white shadow-lg ${serverError ? 'mt-10' : ''}`}>
-        <div className="p-6 border-b bg-gradient-to-r from-blue-50 to-purple-50">
-          <div className="flex items-center space-x-3 mb-4">
-            <div className="bg-white rounded-xl p-2 shadow-lg">
-              <img 
-                src="./logo.png" 
-                alt="Logo" 
-                className="h-8 w-auto"
-              />
-            </div>
-            <div>
-              <h1 className="text-lg font-bold text-gray-800">SamCast</h1>
-              <p className="text-xs text-gray-600">Admin Panel</p>
-            </div>
+        <div className="p-6 border-b">
+          <div className="mb-6">
+            <img
+              src="./logo.png"
+              alt="Logo"
+              className="h-12 w-auto"
+            />
           </div>
           <div className="bg-white/70 backdrop-blur-sm rounded-xl p-3">
             <p className="text-sm font-medium text-gray-800">
               Olá, {admin?.nome || 'Usuário'}
             </p>
             <p className="text-xs text-gray-600 mt-1">
-              {admin?.nivel_acesso === 'super_admin' ? 'Super Administrador' : 
+              {admin?.nivel_acesso === 'super_admin' ? 'Super Administrador' :
                admin?.nivel_acesso === 'admin' ? 'Administrador' : 'Suporte'}
             </p>
           </div>

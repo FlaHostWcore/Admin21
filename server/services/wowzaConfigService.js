@@ -103,13 +103,23 @@ class WowzaConfigService {
         // Não falhar se não conseguir criar o diretório FTP
       }
 
+      // Criar usuário FTP
+      console.log(`👤 Criando usuário FTP...`);
+      try {
+        await this.createFTPUser(nome, senha, serverIp, serverData);
+        console.log(`✅ Usuário FTP criado com sucesso`);
+      } catch (error) {
+        console.error(`❌ Erro ao criar usuário FTP:`, error);
+        // Não falhar se não conseguir criar usuário FTP
+      }
+
       // Definir permissões corretas
       console.log(`🔐 Definindo permissões...`);
       try {
         await this.executeSSHCommand(`chown -R wowza:wowza "${appDir}"`, serverIp, serverData);
         await this.executeSSHCommand(`chmod -R 777 "${appDir}"`, serverIp, serverData);
-        await this.executeSSHCommand(`chown -R wowza:wowza "${streamingDir}"`, serverIp, serverData);
-        await this.executeSSHCommand(`chmod -R 777 "${streamingDir}"`, serverIp, serverData);
+        await this.executeSSHCommand(`chown -R ${nome}:${nome} "${streamingDir}"`, serverIp, serverData);
+        await this.executeSSHCommand(`chmod -R 755 "${streamingDir}"`, serverIp, serverData);
         console.log(`✅ Permissões definidas com sucesso`);
       } catch (error) {
         console.error(`❌ Erro ao definir permissões:`, error);
@@ -171,10 +181,19 @@ class WowzaConfigService {
       // Parar aplicação antes de remover
       await this.executeSSHCommand(`systemctl stop WowzaStreamingEngine`, serverIp, serverData);
       
+      // Remover usuário FTP
+      try {
+        await this.executeSSHCommand(`userdel -r "${nome}" 2>/dev/null || true`, serverIp, serverData);
+        console.log(`✅ Usuário FTP removido: ${nome}`);
+      } catch (error) {
+        console.warn(`⚠️ Erro ao remover usuário FTP:`, error.message);
+        // Continuar mesmo se não conseguir remover usuário
+      }
+
       // Remover diretórios
       await this.executeSSHCommand(`rm -rf "${appDir}"`, serverIp, serverData);
       await this.executeSSHCommand(`rm -rf "${streamingDir}"`, serverIp, serverData);
-      
+
       // Reiniciar o Wowza
       await this.restartWowza(serverIp, serverData);
       
@@ -975,6 +994,57 @@ class WowzaConfigService {
    */
   generateAliasMapStream(nome) {
     return `*=\${Stream.Name}`;
+  }
+
+  /**
+   * Cria um usuário FTP para o streaming
+   */
+  async createFTPUser(username, password, serverIp, serverData) {
+    const streamingDir = `/home/streaming/${username}`;
+
+    try {
+      console.log(`👤 Criando usuário do sistema: ${username}`);
+
+      // Verificar se o usuário já existe
+      const checkUserCommand = `id ${username} 2>/dev/null && echo "exists" || echo "not found"`;
+      const userExists = await this.executeSSHCommand(checkUserCommand, serverIp, serverData);
+
+      if (userExists.trim() === 'exists') {
+        console.log(`⚠️ Usuário ${username} já existe`);
+        return;
+      }
+
+      // Criar usuário do sistema com home directory
+      const hashedPassword = Buffer.from(password).toString('base64');
+      const createUserCommand = `useradd -d "${streamingDir}" -s /usr/sbin/nologin -m "${username}" 2>/dev/null || true`;
+      await this.executeSSHCommand(createUserCommand, serverIp, serverData);
+
+      // Definir senha do usuário
+      const setPasswordCommand = `echo "${username}:${password}" | chpasswd`;
+      await this.executeSSHCommand(setPasswordCommand, serverIp, serverData);
+
+      console.log(`✅ Usuário FTP criado: ${username}`);
+
+      // Configurar acesso FTP restrito (opcional - se usar vsftpd)
+      const vsftpdConfig = `${streamingDir}/.vsftpd_user_conf`;
+      const ftpConfigContent = `local_root=${streamingDir}
+write_enable=YES
+anon_world_readable_only=NO
+anon_upload_enable=YES
+anon_mkdir_write_enable=YES
+anon_other_write_enable=YES`;
+
+      try {
+        await this.writeFileToServer(vsftpdConfig, ftpConfigContent, serverIp, serverData);
+        console.log(`✅ Configuração FTP criada para: ${username}`);
+      } catch (error) {
+        console.warn(`⚠️ Não foi possível criar configuração vsftpd:`, error.message);
+        // Continuar mesmo se não conseguir configurar vsftpd
+      }
+    } catch (error) {
+      console.error(`❌ Erro ao criar usuário FTP:`, error);
+      throw error;
+    }
   }
 
   /**
